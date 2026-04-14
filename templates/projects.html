@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Projects — Prince Pamintuan Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Nunito:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+
+    :root {
+      --bg:         #ffffff;
+      --bg2:        #f7f5f2;
+      --bg3:        #eeecea;
+      --surface:    #f0ede9;
+      --border:     rgba(0,0,0,0.09);
+      --accent:     #2b2b2b;
+      --accent2:    #c97d4e;
+      --accent-lt:  #e8c4a8;
+      --text:       #1e1e1e;
+      --text-muted: #6b6560;
+      --text-dim:   #b0aaa4;
+      --white:      #ffffff;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Nunito', sans-serif;
+      --font-sub:     'Nunito Sans', sans-serif;
+      --nav-h: 76px;
+      --radius: 4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; cursor: none; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.15; }
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+    #cursor { position:fixed; width:10px; height:10px; background:var(--accent2); border-radius:50%; pointer-events:none; z-index:9999; transition:transform .15s ease; transform:translate(-50%,-50%); }
+    #cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid rgba(201,125,78,.45); border-radius:50%; pointer-events:none; z-index:9998; transition:transform .38s cubic-bezier(.17,.67,.38,1); transform:translate(-50%,-50%); }
+    .tag { font-family:var(--font-sub); font-size:.68rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--accent2); display:inline-flex; align-items:center; gap:.5rem; }
+    .tag::before { content:''; display:inline-block; width:22px; height:2px; background:var(--accent2); }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; font-family:var(--font-sub); font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; padding:.9rem 2.2rem; border-radius:50px; border:2px solid var(--accent); color:var(--accent); background:transparent; cursor:none; transition:background .3s,color .3s,border-color .3s,transform .2s; position:relative; overflow:hidden; }
+    .btn:hover { background:var(--accent); color:var(--white); transform:translateY(-2px); }
+    .btn span { position:relative; z-index:1; }
+    .btn-fill { background:var(--accent); color:var(--white); border-color:var(--accent); }
+    .btn-fill:hover { background:var(--accent2); border-color:var(--accent2); }
+    .btn-warm { background:var(--accent2); color:var(--white); border-color:var(--accent2); }
+    .btn-warm:hover { background:var(--accent); border-color:var(--accent); }
+    nav { position:fixed; top:0; left:0; right:0; height:var(--nav-h); display:flex; align-items:center; padding:0 clamp(1.5rem,5vw,4rem); z-index:100; transition:background .4s,box-shadow .4s; background:rgba(255,255,255,0); }
+    nav.scrolled { background:rgba(255,255,255,.94); backdrop-filter:blur(16px); box-shadow:0 1px 0 var(--border); }
+    .nav-inner { width:100%; display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo { display:flex; align-items:center; gap:.6rem; text-decoration:none; }
+    .nav-logo img { height:44px; width:auto; display:block; }
+    .nav-name-wrap { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-studio { font-family:var(--font-display); font-size:1.05rem; font-weight:500; color:var(--text); letter-spacing:.02em; }
+    .nav-tagline { font-family:var(--font-sub); font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); }
+    .nav-links { display:flex; align-items:center; gap:2.2rem; list-style:none; }
+    .nav-links a { font-family:var(--font-sub); font-size:.75rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; transition:color .2s; position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px; background:var(--accent2); transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+    .nav-links a:hover { color:var(--accent); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+    .nav-cta { margin-left:.5rem; }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:transform .3s,opacity .3s; }
+    .mobile-menu { display:none; position:fixed; inset:0; background:rgba(255,255,255,.97); backdrop-filter:blur(20px); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:var(--font-display); font-size:2.5rem; color:var(--text); text-decoration:none; transition:color .2s; }
+    .mobile-menu a:hover { color:var(--accent2); }
+    .mobile-close { position:absolute; top:1.5rem; right:1.5rem; font-size:1.5rem; color:var(--text-muted); background:none; border:none; cursor:none; }
+    footer { background:var(--text); color:rgba(255,255,255,.7); padding:2.5rem clamp(1.5rem,5vw,4rem); display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .footer-logo img { height:36px; filter:invert(1) brightness(2); opacity:.8; }
+    .footer-copy { font-family:var(--font-sub); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+    .footer-socials { display:flex; gap:1.5rem; }
+    .footer-socials a { font-family:var(--font-sub); font-size:.62rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s; }
+    .footer-socials a:hover { color:var(--accent2); }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity .65s ease,transform .65s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    @media (max-width:640px) { .nav-links,.nav-cta { display:none; } .hamburger { display:flex; } }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: calc(var(--nav-h) + 4rem) 0 3rem;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-hero-inner { display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+    .page-hero h1 { font-size:clamp(2.5rem,6vw,4.5rem); color:var(--text); }
+    .page-hero h1 em { font-style:italic; color:var(--accent2); }
+    .page-hero p { font-size:.95rem; color:var(--text-muted); max-width:400px; margin-top:.75rem; }
+    .project-count { font-family:var(--font-display); font-size:4rem; color:var(--accent-lt); line-height:1; font-style:italic; }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+      padding:2rem 0;
+      border-bottom:1px solid var(--border);
+    }
+    .filter-btn {
+      font-family:var(--font-sub); font-size:.7rem; font-weight:600;
+      letter-spacing:.1em; text-transform:uppercase;
+      padding:.5rem 1.25rem; border-radius:50px;
+      border:1.5px solid var(--border);
+      background:transparent; color:var(--text-muted);
+      cursor:none; transition:all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background:var(--accent2); color:var(--white); border-color:var(--accent2);
+    }
+
+    /* PROJECTS MASONRY GRID */
+    .all-projects-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1.5rem;
+      padding:3rem 0 6rem;
+    }
+    .all-proj-card {
+      display:block; text-decoration:none; cursor:none;
+      border-radius:var(--radius); overflow:hidden;
+      box-shadow:0 2px 12px rgba(0,0,0,.06);
+      transition:box-shadow .3s,transform .3s;
+      background:var(--white);
+    }
+    .all-proj-card:hover { box-shadow:0 10px 40px rgba(0,0,0,.13); transform:translateY(-5px); }
+    /* Vary heights for masonry feel */
+    .all-proj-card:nth-child(3n+1) .all-proj-thumb { aspect-ratio:4/5; }
+    .all-proj-card:nth-child(3n+2) .all-proj-thumb { aspect-ratio:4/3; }
+    .all-proj-card:nth-child(3n)   .all-proj-thumb { aspect-ratio:1/1; }
+    .all-proj-thumb { width:100%; overflow:hidden; background:var(--surface); }
+    .all-proj-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s ease; }
+    .all-proj-card:hover .all-proj-thumb img { transform:scale(1.05); }
+    .all-proj-info { padding:1.2rem 1.4rem 1.5rem; border:1px solid var(--border); border-top:none; }
+    .all-proj-cat { font-family:var(--font-sub); font-size:.6rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent2); margin-bottom:.3rem; }
+    .all-proj-name { font-family:var(--font-display); font-size:1.2rem; color:var(--text); }
+    .all-proj-desc { font-size:.83rem; color:var(--text-muted); margin-top:.4rem; line-height:1.7; }
+    .all-proj-arrow { display:flex; align-items:center; gap:.4rem; font-family:var(--font-sub); font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); margin-top:.8rem; transition:color .2s,gap .2s; }
+    .all-proj-card:hover .all-proj-arrow { color:var(--accent2); gap:.7rem; }
+
+    /* NO RESULTS */
+    .no-results { grid-column:1/-1; text-align:center; padding:4rem 0; color:var(--text-muted); font-family:var(--font-display); font-size:1.5rem; font-style:italic; }
+
+    @media(max-width:900px) { .all-projects-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:560px) { .all-projects-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html" onclick="closeMobile()">Home</a>
+  <a href="all-projects.html" onclick="closeMobile()">Work</a>
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#services" onclick="closeMobile()">Services</a>
+  <a href="index.html#bookings" onclick="closeMobile()">Bookings</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+</div>
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-name-wrap">
+        <span class="nav-studio">Prince Pamintuan</span>
+        <span class="nav-tagline">Photography Studio</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="all-projects.html">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#gallery">Gallery</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+    </ul>
+    <a href="index.html#bookings" class="btn btn-warm nav-cta"><span>Book a Session</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div>
+        <div class="tag">Portfolio</div>
+        <h1>All <em>Projects</em></h1>
+        <p>A full collection of my work — portraits, events, families, and everything in between.</p>
+      </div>
+      <div class="project-count" id="projectCount">12</div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="container">
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all" onclick="filterProjects('all',this)">All</button>
+    <button class="filter-btn" data-filter="portrait" onclick="filterProjects('portrait',this)">Portraits</button>
+    <button class="filter-btn" data-filter="events" onclick="filterProjects('events',this)">Events</button>
+    <button class="filter-btn" data-filter="family" onclick="filterProjects('family',this)">Family</button>
+    <button class="filter-btn" data-filter="wedding" onclick="filterProjects('wedding',this)">Weddings &amp; Debuts</button>
+    <button class="filter-btn" data-filter="corporate" onclick="filterProjects('corporate',this)">Corporate</button>
+    <button class="filter-btn" data-filter="headshots" onclick="filterProjects('headshots',this)">Headshots</button>
+  </div>
+</div>
+
+<!-- ALL PROJECTS GRID -->
+<div class="container">
+  <div class="all-projects-grid" id="projectsGrid">
+
+    <!--
+      HOW TO ADD A PROJECT:
+      1. Copy one <a class="all-proj-card"> block
+      2. Set data-category to: portrait | events | family | wedding | corporate | headshots
+      3. Set href to your project page (e.g. project-template.html)
+      4. Replace img src with your cover image
+      5. Update category label, title, and short description
+    -->
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="portrait">
+      <div class="all-proj-thumb"><img src="images/project-1-cover.jpg" alt="Project One" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Portrait Session</div>
+        <div class="all-proj-name">Project Name One</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="events">
+      <div class="all-proj-thumb"><img src="images/project-2-cover.jpg" alt="Project Two" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Events Coverage</div>
+        <div class="all-proj-name">Project Name Two</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="family">
+      <div class="all-proj-thumb"><img src="images/project-3-cover.jpg" alt="Project Three" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Family Portrait</div>
+        <div class="all-proj-name">Project Name Three</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="corporate">
+      <div class="all-proj-thumb"><img src="images/project-4-cover.jpg" alt="Project Four" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Corporate Event</div>
+        <div class="all-proj-name">Project Name Four</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="wedding">
+      <div class="all-proj-thumb"><img src="images/project-5-cover.jpg" alt="Project Five" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Wedding / Debut</div>
+        <div class="all-proj-name">Project Name Five</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="headshots">
+      <div class="all-proj-thumb"><img src="images/project-6-cover.jpg" alt="Project Six" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Headshots</div>
+        <div class="all-proj-name">Project Name Six</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="portrait">
+      <div class="all-proj-thumb"><img src="images/project-7-cover.jpg" alt="Project Seven" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Portrait Session</div>
+        <div class="all-proj-name">Project Name Seven</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="events">
+      <div class="all-proj-thumb"><img src="images/project-8-cover.jpg" alt="Project Eight" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Events Coverage</div>
+        <div class="all-proj-name">Project Name Eight</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="family">
+      <div class="all-proj-thumb"><img src="images/project-9-cover.jpg" alt="Project Nine" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Family Portrait</div>
+        <div class="all-proj-name">Project Name Nine</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="wedding">
+      <div class="all-proj-thumb"><img src="images/project-10-cover.jpg" alt="Project Ten" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Debut</div>
+        <div class="all-proj-name">Project Name Ten</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="corporate">
+      <div class="all-proj-thumb"><img src="images/project-11-cover.jpg" alt="Project Eleven" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Corporate Event</div>
+        <div class="all-proj-name">Project Name Eleven</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+    <a href="project-template.html" class="all-proj-card reveal" data-category="headshots">
+      <div class="all-proj-thumb"><img src="images/project-12-cover.jpg" alt="Project Twelve" /></div>
+      <div class="all-proj-info">
+        <div class="all-proj-cat">Headshots</div>
+        <div class="all-proj-name">Project Name Twelve</div>
+        <div class="all-proj-desc">Short one-liner description of the project or client.</div>
+        <div class="all-proj-arrow">View Project <span>→</span></div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+
+<footer>
+  <div class="footer-copy">© 2025 Prince Pamintuan Photography. All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="#">Instagram</a>
+    <a href="#">Facebook</a>
+    <a href="#">Behance</a>
+  </div>
+</footer>
+
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  (function anim(){ cursor.style.left=mx+'px'; cursor.style.top=my+'px'; rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+  document.querySelectorAll('a,button,.faq-q').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)';   ring.style.transform='translate(-50%,-50%) scale(1)'; });
+  });
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', closeMobile);
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+  const io = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*70); io.unobserve(e.target); } }); }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+<script>
+  function filterProjects(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cards = document.querySelectorAll('.all-proj-card');
+    let visible = 0;
+    cards.forEach(c => {
+      const match = cat === 'all' || c.dataset.category === cat;
+      c.style.display = match ? 'block' : 'none';
+      if (match) visible++;
+    });
+    document.getElementById('projectCount').textContent = visible;
+    const noRes = document.querySelector('.no-results');
+    if (noRes) noRes.remove();
+    if (visible === 0) {
+      const msg = document.createElement('div');
+      msg.className = 'no-results';
+      msg.textContent = 'No projects in this category yet.';
+      document.getElementById('projectsGrid').appendChild(msg);
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prince Pamintuan Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Nunito:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+
+    :root {
+      --bg:         #ffffff;
+      --bg2:        #f7f5f2;
+      --bg3:        #eeecea;
+      --surface:    #f0ede9;
+      --border:     rgba(0,0,0,0.09);
+      --accent:     #2b2b2b;
+      --accent2:    #c97d4e;
+      --accent-lt:  #e8c4a8;
+      --text:       #1e1e1e;
+      --text-muted: #6b6560;
+      --text-dim:   #b0aaa4;
+      --white:      #ffffff;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Nunito', sans-serif;
+      --font-sub:     'Nunito Sans', sans-serif;
+      --nav-h: 76px;
+      --radius: 4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; cursor: none; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.15; }
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+    #cursor { position:fixed; width:10px; height:10px; background:var(--accent2); border-radius:50%; pointer-events:none; z-index:9999; transition:transform .15s ease; transform:translate(-50%,-50%); }
+    #cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid rgba(201,125,78,.45); border-radius:50%; pointer-events:none; z-index:9998; transition:transform .38s cubic-bezier(.17,.67,.38,1); transform:translate(-50%,-50%); }
+    .tag { font-family:var(--font-sub); font-size:.68rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--accent2); display:inline-flex; align-items:center; gap:.5rem; }
+    .tag::before { content:''; display:inline-block; width:22px; height:2px; background:var(--accent2); }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; font-family:var(--font-sub); font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; padding:.9rem 2.2rem; border-radius:50px; border:2px solid var(--accent); color:var(--accent); background:transparent; cursor:none; transition:background .3s,color .3s,border-color .3s,transform .2s; position:relative; overflow:hidden; }
+    .btn:hover { background:var(--accent); color:var(--white); transform:translateY(-2px); }
+    .btn span { position:relative; z-index:1; }
+    .btn-fill { background:var(--accent); color:var(--white); border-color:var(--accent); }
+    .btn-fill:hover { background:var(--accent2); border-color:var(--accent2); }
+    .btn-warm { background:var(--accent2); color:var(--white); border-color:var(--accent2); }
+    .btn-warm:hover { background:var(--accent); border-color:var(--accent); }
+    nav { position:fixed; top:0; left:0; right:0; height:var(--nav-h); display:flex; align-items:center; padding:0 clamp(1.5rem,5vw,4rem); z-index:100; transition:background .4s,box-shadow .4s; background:rgba(255,255,255,0); }
+    nav.scrolled { background:rgba(255,255,255,.94); backdrop-filter:blur(16px); box-shadow:0 1px 0 var(--border); }
+    .nav-inner { width:100%; display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo { display:flex; align-items:center; gap:.6rem; text-decoration:none; }
+    .nav-logo img { height:44px; width:auto; display:block; }
+    .nav-name-wrap { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-studio { font-family:var(--font-display); font-size:1.05rem; font-weight:500; color:var(--white); letter-spacing:.02em; transition:color .4s; }
+    .nav-tagline { font-family:var(--font-sub); font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.65); transition:color .4s; }
+    nav.scrolled .nav-studio { color:var(--text); }
+    nav.scrolled .nav-tagline { color:var(--text-muted); }
+    .nav-links { display:flex; align-items:center; gap:2.2rem; list-style:none; }
+    .nav-links a { font-family:var(--font-sub); font-size:.75rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.8); text-decoration:none; transition:color .2s; position:relative; }
+    nav.scrolled .nav-links a { color:var(--text-muted); }
+    .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px; background:var(--accent2); transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+    .nav-links a:hover { color:var(--white); }
+    nav.scrolled .nav-links a:hover { color:var(--accent); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+    .nav-cta { margin-left:.5rem; }
+    /* Override nav CTA border/color when on hero */
+    .nav-cta-hero { border-color:rgba(255,255,255,.7) !important; color:var(--white) !important; }
+    nav.scrolled .nav-cta-hero { border-color:var(--accent2) !important; color:var(--white) !important; background:var(--accent2) !important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; transition:transform .3s,opacity .3s,background .4s; }
+    nav.scrolled .hamburger span { background:var(--text); }
+    .mobile-menu { display:none; position:fixed; inset:0; background:rgba(255,255,255,.97); backdrop-filter:blur(20px); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:var(--font-display); font-size:2.5rem; color:var(--text); text-decoration:none; transition:color .2s; }
+    .mobile-menu a:hover { color:var(--accent2); }
+    .mobile-close { position:absolute; top:1.5rem; right:1.5rem; font-size:1.5rem; color:var(--text-muted); background:none; border:none; cursor:none; }
+    footer { background:var(--text); color:rgba(255,255,255,.7); padding:2.5rem clamp(1.5rem,5vw,4rem); display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .footer-logo img { height:36px; filter:invert(1) brightness(2); opacity:.8; }
+    .footer-copy { font-family:var(--font-sub); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+    .footer-socials { display:flex; gap:1.5rem; }
+    .footer-socials a { font-family:var(--font-sub); font-size:.62rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s; }
+    .footer-socials a:hover { color:var(--accent2); }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity .65s ease,transform .65s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    @media (max-width:640px) { .nav-links,.nav-cta { display:none; } .hamburger { display:flex; } }
+
+    /* ── AVAIL BADGE ── */
+    .avail-badge { display:inline-flex; align-items:center; gap:.5rem; font-family:var(--font-sub); font-size:.7rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#fff; background:rgba(255,255,255,.15); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.25); padding:.35rem 1rem; border-radius:50px; }
+    .avail-dot { width:7px; height:7px; background:#4ade80; border-radius:50%; animation:pulse-g 2s infinite; }
+    @keyframes pulse-g { 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.7)} 50%{box-shadow:0 0 0 5px rgba(74,222,128,0)} }
+
+    /* ── HERO — Full Cover ── */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* The background image */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Dark gradient overlay so text is always readable */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        rgba(10,8,6,.72) 0%,
+        rgba(10,8,6,.45) 55%,
+        rgba(10,8,6,.15) 100%
+      );
+    }
+
+    /* Content sits on top */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: clamp(3rem,8vw,6rem) clamp(1.5rem,5vw,4rem);
+      max-width: 1240px;
+      margin: 0 auto;
+      width: 100%;
+      padding-top: calc(var(--nav-h) + clamp(3rem,8vw,6rem));
+    }
+
+    .hero-h1 { font-size:clamp(3.2rem,7vw,6.5rem); font-weight:500; color:var(--white); margin:1.2rem 0 .5rem; letter-spacing:-.02em; text-shadow:0 2px 32px rgba(0,0,0,.25); }
+    .hero-h1 em { font-style:italic; color:var(--accent2); }
+    .hero-sub { font-size:clamp(1rem,1.3vw,1.15rem); color:rgba(255,255,255,.82); max-width:500px; margin-bottom:2.5rem; line-height:1.85; text-shadow:0 1px 12px rgba(0,0,0,.3); }
+    .hero-sub strong { color:var(--white); font-weight:600; }
+    .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; align-items:center; }
+
+    /* Override btn colors for hero (white-on-dark) */
+    .hero-actions .btn-fill { background:var(--white); color:var(--accent); border-color:var(--white); }
+    .hero-actions .btn-fill:hover { background:var(--accent2); color:var(--white); border-color:var(--accent2); }
+    .hero-actions .btn-outline { border-color:rgba(255,255,255,.6); color:var(--white); }
+    .hero-actions .btn-outline:hover { background:rgba(255,255,255,.15); border-color:var(--white); }
+
+    /* Scroll hint */
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-sub);
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+      animation: scroll-drop 1.8s ease-in-out infinite;
+    }
+    @keyframes scroll-drop { 0%,100%{opacity:.3;transform:scaleY(.6) translateY(-10px)} 50%{opacity:1;transform:scaleY(1) translateY(0)} }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:1.1rem 0; background:var(--bg2); }
+    .marquee-track { display:flex; white-space:nowrap; animation:mq 26s linear infinite; }
+    .marquee-item { font-family:var(--font-display); font-size:1.1rem; font-style:italic; color:var(--text-muted); padding:0 2.5rem; display:flex; align-items:center; gap:2.5rem; }
+    .marquee-item::after { content:'✦'; color:var(--accent2); font-size:.65rem; font-style:normal; }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── SECTION HEADER ── */
+    .section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:clamp(2rem,5vw,3.5rem); gap:1rem; }
+    .section-title { font-size:clamp(2rem,4.5vw,3.2rem); color:var(--text); margin-top:.75rem; }
+
+    /* ── PROJECTS ── */
+    #projects { padding:clamp(4rem,8vw,8rem) 0; }
+    .projects-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:1.2rem; }
+    .proj-card { display:block; text-decoration:none; cursor:none; overflow:hidden; border-radius:var(--radius); box-shadow:0 2px 12px rgba(0,0,0,.06); transition:box-shadow .3s,transform .3s; }
+    .proj-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.12); transform:translateY(-4px); }
+    .proj-card:nth-child(1) { grid-column:span 7; }
+    .proj-card:nth-child(2) { grid-column:span 5; }
+    .proj-card:nth-child(3) { grid-column:span 4; }
+    .proj-card:nth-child(4) { grid-column:span 4; }
+    .proj-card:nth-child(5) { grid-column:span 4; }
+    .proj-thumb { width:100%; aspect-ratio:4/3; overflow:hidden; background:var(--surface); }
+    .proj-card:nth-child(1) .proj-thumb { aspect-ratio:16/10; }
+    .proj-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s ease; }
+    .proj-card:hover .proj-thumb img { transform:scale(1.05); }
+    .proj-info { padding:1.1rem 1.3rem 1.3rem; background:var(--white); border:1px solid var(--border); border-top:none; }
+    .proj-cat { font-family:var(--font-sub); font-size:.6rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent2); margin-bottom:.3rem; }
+    .proj-name { font-family:var(--font-display); font-size:1.15rem; color:var(--text); }
+    .proj-arrow { display:flex; align-items:center; gap:.4rem; font-family:var(--font-sub); font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); margin-top:.6rem; transition:color .2s,gap .2s; }
+    .proj-card:hover .proj-arrow { color:var(--accent2); gap:.7rem; }
+
+    /* ── ABOUT ── */
+    #about { padding:clamp(4rem,8vw,8rem) 0; background:var(--bg2); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,6vw,5rem); align-items:start; }
+    .about-photo { position:relative; }
+    .about-photo-main { width:100%; aspect-ratio:3/4; border-radius:var(--radius); overflow:hidden; background:var(--surface); }
+    .about-photo-main img { width:100%; height:100%; object-fit:cover; display:block; }
+    .about-photo-accent { position:absolute; bottom:-1.5rem; right:-1.5rem; width:42%; aspect-ratio:1; border:4px solid var(--bg2); border-radius:var(--radius); overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.12); background:var(--surface); }
+    .about-photo-accent img { width:100%; height:100%; object-fit:cover; display:block; }
+    .about-content { padding-top:1rem; }
+    .about-name { font-size:clamp(2rem,4vw,3rem); color:var(--text); margin:.75rem 0 .2rem; }
+    .about-role { font-family:var(--font-sub); font-size:.72rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--accent2); margin-bottom:1.8rem; }
+    .about-text { color:var(--text-muted); font-size:.95rem; line-height:1.9; margin-bottom:1.2rem; }
+    .about-text strong { color:var(--text); font-weight:600; }
+    .stats-row { display:flex; gap:2.5rem; margin:2.2rem 0; padding-top:1.8rem; border-top:1px solid var(--border); flex-wrap:wrap; }
+    .stat-num { font-family:var(--font-display); font-size:2.8rem; color:var(--accent2); line-height:1; }
+    .stat-label { font-family:var(--font-sub); font-size:.62rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin-top:.3rem; }
+    .skill-chip { font-family:var(--font-sub); font-size:.7rem; font-weight:600; color:var(--text); background:var(--bg3); border:1px solid var(--border); border-radius:50px; padding:.35rem 1rem; transition:background .2s,color .2s; }
+    .skill-chip:hover { background:var(--accent2); color:var(--white); border-color:var(--accent2); }
+
+    /* ── SERVICES ── */
+    #services { padding:clamp(4rem,8vw,8rem) 0; }
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; margin-top:clamp(2rem,4vw,3rem); }
+    .service-card { background:var(--bg2); border-radius:var(--radius); padding:2.2rem 1.8rem; border:1px solid var(--border); transition:transform .3s,box-shadow .3s; }
+    .service-card:hover { transform:translateY(-4px); box-shadow:0 8px 32px rgba(0,0,0,.08); }
+    .service-icon { font-size:1.8rem; margin-bottom:.75rem; }
+    .service-name { font-family:var(--font-display); font-size:1.3rem; color:var(--text); margin-bottom:.6rem; }
+    .service-desc { font-size:.88rem; color:var(--text-muted); line-height:1.8; }
+
+    /* ── GALLERY STRIP ── */
+    #gallery { padding:clamp(3rem,5vw,5rem) 0; background:var(--bg2); overflow:hidden; }
+    .gallery-strip { display:flex; gap:1rem; animation:gs 32s linear infinite; width:max-content; }
+    .gallery-strip:hover { animation-play-state:paused; }
+    .gallery-thumb { width:260px; height:360px; flex-shrink:0; overflow:hidden; border-radius:var(--radius); background:var(--surface); }
+    .gallery-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s; }
+    .gallery-thumb:hover img { transform:scale(1.06); }
+    @keyframes gs { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── BOOKINGS ── */
+    #bookings { padding:clamp(4rem,8vw,8rem) 0; }
+    .bookings-layout { display:grid; grid-template-columns:1fr 1.15fr; gap:clamp(3rem,6vw,6rem); align-items:start; }
+    .bookings-info h2 { font-size:clamp(2rem,4.5vw,3.2rem); color:var(--text); margin:.75rem 0 1.2rem; }
+    .bookings-info h2 em { color:var(--accent2); }
+    .bookings-info p { color:var(--text-muted); font-size:.93rem; line-height:1.9; margin-bottom:1.8rem; }
+    .packages { display:flex; flex-direction:column; }
+    .pkg { display:flex; align-items:center; justify-content:space-between; padding:1.2rem 0; border-bottom:1px solid var(--border); gap:1rem; }
+    .pkg-name { font-family:var(--font-display); font-size:1.05rem; color:var(--text); }
+    .pkg-detail { font-family:var(--font-sub); font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-top:.2rem; }
+    .pkg-price { font-family:var(--font-display); font-size:1.25rem; color:var(--accent2); white-space:nowrap; }
+    .booking-form { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:clamp(2rem,4vw,3rem); }
+    .form-title { font-family:var(--font-display); font-size:1.7rem; color:var(--text); margin-bottom:1.6rem; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .form-group { margin-bottom:1.1rem; }
+    .form-group label { display:block; font-family:var(--font-sub); font-size:.65rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:.45rem; }
+    .form-group input,.form-group select,.form-group textarea { width:100%; background:var(--white); border:1.5px solid var(--border); border-radius:8px; color:var(--text); font-family:var(--font-body); font-size:.93rem; padding:.8rem 1rem; outline:none; transition:border-color .2s,box-shadow .2s; -webkit-appearance:none; }
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:var(--accent2); box-shadow:0 0 0 3px rgba(201,125,78,.12); }
+    .form-group textarea { resize:vertical; min-height:110px; }
+    .form-submit { width:100%; margin-top:.5rem; border-radius:8px; }
+
+    /* ── FAQ ── */
+    #faq { padding:clamp(4rem,8vw,8rem) 0; background:var(--bg2); }
+    .faq-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 4rem; margin-top:clamp(2rem,4vw,3rem); }
+    .faq-item { border-bottom:1px solid var(--border); padding:1.4rem 0; }
+    .faq-q { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; cursor:none; }
+    .faq-num { font-family:var(--font-sub); font-size:.6rem; font-weight:700; color:var(--accent2); padding-top:.2rem; }
+    .faq-question { font-family:var(--font-display); font-size:1rem; color:var(--text); flex:1; }
+    .faq-toggle { width:24px; height:24px; border-radius:50%; border:1.5px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem; color:var(--text-muted); transition:transform .3s,background .3s,color .3s; }
+    .faq-item.open .faq-toggle { transform:rotate(45deg); background:var(--accent2); color:white; border-color:var(--accent2); }
+    .faq-a { display:none; padding:.9rem 0 0 2rem; font-size:.9rem; color:var(--text-muted); line-height:1.85; }
+    .faq-item.open .faq-a { display:block; }
+
+    /* ── CONTACT ── */
+    #contact { padding:clamp(5rem,10vw,10rem) 0; text-align:center; }
+    .contact-inner { max-width:680px; margin:0 auto; }
+    .contact-big { font-size:clamp(2.8rem,7vw,6rem); color:var(--text); line-height:1.05; margin:1rem 0 1.5rem; }
+    .contact-big em { color:var(--accent2); font-style:italic; }
+    .contact-sub { font-size:.95rem; color:var(--text-muted); margin-bottom:2.5rem; }
+    .contact-links { display:flex; align-items:center; justify-content:center; gap:2rem; margin-top:3rem; }
+    .contact-link { font-family:var(--font-sub); font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; transition:color .2s; }
+    .contact-link:hover { color:var(--accent2); }
+    .contact-divider { width:1px; height:14px; background:var(--border); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px) {
+      .about-grid { grid-template-columns:1fr; }
+      .about-photo-accent { display:none; }
+      .bookings-layout { grid-template-columns:1fr; }
+      .faq-grid { grid-template-columns:1fr; }
+      .projects-grid { display:flex; flex-wrap:wrap; }
+      .proj-card { flex:1 1 280px; }
+    }
+    @media(max-width:640px) { .form-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html" onclick="closeMobile()">Home</a>
+  <a href="index.html#projects" onclick="closeMobile()">Work</a>
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#services" onclick="closeMobile()">Services</a>
+  <a href="index.html#bookings" onclick="closeMobile()">Bookings</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+</div>
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"> 
+      <div class="nav-name-wrap">
+        <span class="nav-studio">Prince Pamintuan</span>
+        <span class="nav-tagline">Photography Studio</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#projects">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#gallery">Gallery</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+    </ul>
+    <a href="index.html#bookings" class="btn btn-warm nav-cta nav-cta-hero"><span>Book a Session</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO — Full Bleed Cover -->
+<section id="hero">
+  <!-- Background image — replace src with your hero photo -->
+  <div class="hero-bg">
+    <img src="images/HERO.JPG" alt="Prince Pamintuan Photography" />
+  </div>
+
+  <!-- Content overlay -->
+  <div class="hero-content">
+    <div class="avail-badge"><span class="avail-dot"></span>Available for Bookings</div>
+    <h1 class="hero-h1">Every moment<br>tells a <em>story.</em></h1>
+    <p class="hero-sub">Hi, I'm <strong>Prince</strong>, a photographer based in the <strong>Philippines</strong>, specializing in <strong>portraits</strong> and <strong>events</strong> that feel genuine, warm, and beautifully real.</p>
+    <div class="hero-actions">
+      <a href="index.html#projects" class="btn btn-fill"><span>View My Work</span></a>
+      <a href="#bookings" class="btn btn-outline"><span>Book a Session</span></a>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Portrait Photography</span><span class="marquee-item">Events Coverage</span><span class="marquee-item">Family Portraits</span><span class="marquee-item">Weddings &amp; Debuts</span><span class="marquee-item">Corporate Events</span><span class="marquee-item">Headshots</span><span class="marquee-item">Lifestyle Portraits</span><span class="marquee-item">Celebrations</span>
+    <span class="marquee-item">Portrait Photography</span><span class="marquee-item">Events Coverage</span><span class="marquee-item">Family Portraits</span><span class="marquee-item">Weddings &amp; Debuts</span><span class="marquee-item">Corporate Events</span><span class="marquee-item">Headshots</span><span class="marquee-item">Lifestyle Portraits</span><span class="marquee-item">Celebrations</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container" style="padding-top:clamp(4rem,8vw,8rem);padding-bottom:clamp(4rem,8vw,8rem)">
+    <div class="section-header reveal">
+      <div>
+        <div class="tag">Selected Work</div>
+        <h2 class="section-title">Projects</h2>
+      </div>
+      <!-- <a href="projects.html" class="btn"><span>View All →</span></a> -->
+    </div>
+    <div class="projects-grid">
+      <a href="project-kat.html" class="proj-card reveal">
+        <div class="proj-thumb"><img src="images/KATT.png" alt="Project One" /></div>
+        <div class="proj-info">
+          <div class="proj-cat">Portrait Session</div>
+          <div class="proj-name">Kat Victorino: Photoshoot</div>
+          <div class="proj-arrow">View Project <span>→</span></div>
+        </div>
+      </a>
+      <a href="project-ignite.html" class="proj-card reveal">
+        <div class="proj-thumb"><img src="images/IGNITE2.JPG" alt="Project Two" /></div>
+        <div class="proj-info">
+          <div class="proj-cat">Events Coverage</div>
+          <div class="proj-name">Church of God Clarkview: Ignite 2026</div>
+          <div class="proj-arrow">View Project <span>→</span></div>
+        </div>
+      </a>
+      <a href="project-genassem.html" class="proj-card reveal">
+        <div class="proj-thumb"><img src="images/GEN5.jpg" alt="Project Three" /></div>
+        <div class="proj-info">
+          <div class="proj-cat">Event Coverage</div>
+          <div class="proj-name">HAU School of Computing General Assembly</div>
+          <div class="proj-arrow">View Project <span>→</span></div>
+        </div>
+      </a>
+      <a href="project-hau.html" class="proj-card reveal">
+        <div class="proj-thumb"><img src="images/SOC_PAMIYATBAYAN.jpg" alt="Project Four" /></div>
+        <div class="proj-info">
+          <div class="proj-cat">Portrait Session</div>
+          <div class="proj-name">HAU School of Computing: UDays' Particpants</div>
+          <div class="proj-arrow">View Project <span>→</span></div>
+        </div>
+      </a>
+      <a href="project-lkmm.html" class="proj-card reveal">
+        <div class="proj-thumb"><img src="images/CH1.png" alt="Project Five" /></div>
+        <div class="proj-info">
+          <div class="proj-cat">Brand Photoshoot</div>
+          <div class="proj-name">Lost Kids Make Money: Chelsea</div>
+          <div class="proj-arrow">View Project <span>→</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container" style="padding-top:clamp(4rem,8vw,8rem);padding-bottom:clamp(4rem,8vw,8rem)">
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <div class="about-photo-main">
+          <img src="images/PrincePamintuan.jpg" alt="Prince Pamintuan" />
+        </div>
+        <div class="about-photo-accent">
+          <img src="images/ikinuha.jpg" alt="" />
+        </div>
+      </div>
+      <div class="about-content reveal">
+        <div class="tag">About Me</div>
+        <h2 class="about-name">Prince Pamintuan</h2>
+        <div class="about-role">Portrait &amp; Events Photographer · Pampanga, Philippines</div>
+        <p class="about-text"><strong>I've always believed that the best photos aren't taken — they're felt.</strong> Whether it's the quiet joy in a portrait session or the electric energy of a packed event, I'm there to make sure those moments live forever.</p>
+        <p class="about-text">Based in the Philippines, I work with families, couples, brands, and organizations who want their stories told with <strong>honesty, warmth, and a little bit of magic.</strong></p>
+        <p class="about-text">Every session starts with a conversation. Because the better I know you, the more your photos will feel like <em>you</em>.</p>
+        <div class="stats-row">
+          <div><div class="stat-num">3+</div><div class="stat-label">Years Shooting</div></div>
+          <div><div class="stat-num">100+</div><div class="stat-label">Sessions Done</div></div>
+          <div><div class="stat-num">50+</div><div class="stat-label">Happy Clients</div></div>
+        </div>
+        <div style="margin-top:2rem"><a href="#bookings" class="btn btn-warm"><span>Work With Me →</span></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container" style="padding-top:clamp(4rem,8vw,8rem);padding-bottom:clamp(4rem,8vw,8rem)">
+    <div class="section-header reveal">
+      <div><div class="tag">What I Offer</div><h2 class="section-title">Services crafted<br>for your story.</h2></div>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card"><div class="service-icon">🎭</div><div class="service-name">Portrait Sessions</div><p class="service-desc">Solo, couple, and family portraits that feel relaxed and natural. Studio or on-location, I'll guide you every step of the way.</p></div>
+      <div class="service-card"><div class="service-icon">🎉</div><div class="service-name">Events Coverage</div><p class="service-desc">Weddings, debuts, corporate gatherings, birthday bashes — I capture the energy, the laughter, and the little moments that matter most.</p></div>
+      <div class="service-card"><div class="service-icon">💼</div><div class="service-name">Professional Headshots</div><p class="service-desc">Clean, confident, and approachable. Headshots for LinkedIn, websites, company directories, and personal branding.</p></div>
+      <div class="service-card"><div class="service-icon">🎓</div><div class="service-name">Debuts &amp; Graduations</div><p class="service-desc">These milestones deserve stunning coverage. From the preparation moments to the grand celebration, I'll be there.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY STRIP -->
+<section id="gallery">
+  <div style="padding-top:clamp(3rem,5vw,5rem);padding-bottom:clamp(3rem,5vw,5rem)">
+    <div class="container" style="padding-bottom:2rem">
+      <div class="tag reveal">Gallery</div>
+      <h2 class="section-title reveal" style="margin-top:.75rem">A glimpse of the work</h2>
+    </div>
+    <div style="overflow:hidden;padding:0 clamp(1.5rem,5vw,4rem)">
+      <div class="gallery-strip">
+        <div class="gallery-thumb"><img src="images/A2.jpg" alt="Gallery 1" /></div>
+        <div class="gallery-thumb"><img src="images/A3.jpg" alt="Gallery 2" /></div>
+        <div class="gallery-thumb"><img src="images/A8.jpg" alt="Gallery 3" /></div>
+        <div class="gallery-thumb"><img src="images/A5.jpg" alt="Gallery 4" /></div>
+        <div class="gallery-thumb"><img src="images/A6.jpg" alt="Gallery 5" /></div>
+        <div class="gallery-thumb"><img src="images/A7.jpg" alt="Gallery 6" /></div>
+        <div class="gallery-thumb"><img src="images/A2.jpg" alt="Gallery 1" /></div>
+        <div class="gallery-thumb"><img src="images/A3.jpg" alt="Gallery 2" /></div>
+        <div class="gallery-thumb"><img src="images/A8.jpg" alt="Gallery 3" /></div>
+        <div class="gallery-thumb"><img src="images/A5.jpg" alt="Gallery 4" /></div>
+        <div class="gallery-thumb"><img src="images/A6.jpg" alt="Gallery 5" /></div>
+        <div class="gallery-thumb"><img src="images/A7.jpg" alt="Gallery 6" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKINGS -->
+<section id="bookings">
+  <div class="container" style="padding-top:clamp(4rem,8vw,8rem);padding-bottom:clamp(4rem,8vw,8rem)">
+    <div class="bookings-layout">
+      <div class="bookings-info reveal">
+        <div class="tag">Let's Create</div>
+        <h2>Ready to book<br>your <em>session?</em></h2>
+        <p>Fill out the form and I'll get back to you within 24-72 hours with availability. Can't wait to work with you!</p>
+        <div class="packages">
+          <div class="pkg"><div><div class="pkg-name">Portrait: Basic Package</div><div class="pkg-detail">45 Minute Portrait Session, 5 Edited Photos, 2 Backdrop Changes, 2 Outfit Change, 1-3 pax.</div></div><div class="pkg-price">₱1,200</div></div>
+          <div class="pkg"><div><div class="pkg-name">Portrait: Standard Package</div><div class="pkg-detail">1 Hour Portrait Session, 10 Edited Photos, 3 Backdrop Changes, 3 Outfit Change, 4 pax</div></div><div class="pkg-price">₱2,200</div></div>
+          <div class="pkg"><div><div class="pkg-name">Portrait: Premium Package</div><div class="pkg-detail">2 Hour Portrait Session, 15 Edited Photos, 4 Backdrop Changes, 4 Outfit Change, 6 pax</div></div><div class="pkg-price">₱3,800</div></div>
+          <div class="pkg"><div><div class="pkg-name">Events: Basic Package</div><div class="pkg-detail">2-3 Hour Coverage, 50-100 Edited Photos, Coverage of Key Moments only, Digital Delivery, Turnaround 5-7 Days</div></div><div class="pkg-price">₱3,500</div></div>
+          <div class="pkg"><div><div class="pkg-name">Events: Standard Package</div><div class="pkg-detail">4-6 Hour Coverage (Full Event), 150-300 Edited Photos, Full Event Coverage - Prep, Program, Candid, Digital Delivery + Organized Gallery, Turnaround 4-6 Days (Priority)</div></div><div class="pkg-price">₱6,300</div></div>
+          <div class="pkg"><div><div class="pkg-name">Custom Package</div><div class="pkg-detail">Debuts, brands, corporate &amp; more</div></div><div class="pkg-price">Let's Talk</div></div>
+        </div>
+      </div>
+      <div class="booking-form reveal">
+        <div class="form-title">Send an Inquiry</div>
+        <form id="bookingForm" onsubmit="handleBooking(event)">
+          <div class="form-row">
+            <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname" name="fname" placeholder="Juan" required /></div>
+            <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname" name="lname" placeholder="dela Cruz" required /></div>
+          </div>
+          <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="juan@example.com" required /></div>
+          <div class="form-group"><label for="phone">Phone / Viber / WhatsApp</label><input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" /></div>
+          <div class="form-group"><label for="service">What are you booking?</label>
+            <select id="service" name="service" required>
+              <option value="" disabled selected>Select a session type</option>
+              <option>Portrait: Basic Package</option>
+              <option>Portrait: Standard Package</option>
+              <option>Events: Basic Package</option>
+              <option>Events: Standard Package</option>
+              <option>Other / Custom</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="date">Preferred Date</label><input type="date" name="date" id="date" /></div>
+          <div class="form-group"><label for="message">Tell me more about your shoot</label><textarea id="message" name="message" placeholder="Where, what vibe, any inspiration? The more you share, the better I can prepare"></textarea></div>
+          <button type="submit" class="btn btn-warm form-submit"><span>Send Inquiry →</span></button>
+        </form>
+        <div id="formSuccess" style="display:none;margin-top:1.5rem;padding:1.25rem;background:#e8f8ef;border:1.5px solid #27ae60;border-radius:8px;color:#1a7a45;font-family:var(--font-sub);font-size:.8rem;font-weight:600;letter-spacing:.05em;">
+          ✓ &nbsp; Inquiry received! I'll be in touch within 48 hours. Talk soon! 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container" style="padding-top:clamp(4rem,8vw,8rem);padding-bottom:clamp(4rem,8vw,8rem)">
+    <div class="reveal"><div class="tag">FAQ</div><h2 class="section-title">Questions? I've got you.</h2></div>
+    <div class="faq-grid">
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">01</span><span class="faq-question">What types of shoots do you specialize in?</span><span class="faq-toggle">+</span></div><div class="faq-a">My main focus is portraits and events — from solo sessions and family portraits to weddings, debuts, corporate events, and everything in between.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">02</span><span class="faq-question">How far in advance should I book?</span><span class="faq-toggle">+</span></div><div class="faq-a">For portraits, 1–2 weeks ahead is usually fine. For events, especially weddings and debuts, I recommend booking 1–3 months in advance to secure your date.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">03</span><span class="faq-question">How long until I get my photos?</span><span class="faq-toggle">+</span></div><div class="faq-a">Portrait sessions are typically ready in 7–10 business days. Event coverage can take up to 3 weeks. I'll always send you a sneak peek within 48 hours!</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">04</span><span class="faq-question">Do you shoot on location or in studio?</span><span class="faq-toggle">+</span></div><div class="faq-a">Both! I love outdoor and meaningful-location shoots, but I also have access to studio space. We'll figure out what works best for your vision.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">05</span><span class="faq-question">How does payment work?</span><span class="faq-toggle">+</span></div><div class="faq-a">A 50% deposit is required to lock in your date, with the remaining balance due on the day of the shoot. I accept GCash, bank transfer, and cash.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">06</span><span class="faq-question">What if I'm nervous in front of the camera?</span><span class="faq-toggle">+</span></div><div class="faq-a">Totally normal! Most of my clients feel that way at first. I'll guide you through poses, keep things relaxed and fun — you'll forget the camera is even there.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">07</span><span class="faq-question">Do you travel for shoots?</span><span class="faq-toggle">+</span></div><div class="faq-a">Absolutely! I'm available across the Philippines and for international shoots. Travel costs will be included in your quote.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-num">08</span><span class="faq-question">What happens if the weather ruins our outdoor shoot?</span><span class="faq-toggle">+</span></div><div class="faq-a">We reschedule at no extra cost, no stress. I always keep an eye on the forecast and will reach out ahead of time if we need to adjust plans.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner reveal">
+      <div class="tag">Get In Touch</div>
+      <h2 class="contact-big">Let's make<br>something <em>beautiful.</em></h2>
+      <p class="contact-sub">Have an event coming up or just want to chat about a shoot? Reach out — I'd love to hear from you.</p>
+      <a href="mailto:princepamintuan.work@gmail.com" class="btn btn-warm"><span>✉ princepamintuan.work@gmail.com</span></a>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/cs.pngp/" class="contact-link" target="_blank">Instagram</a><div class="contact-divider"></div>
+        <a href="https://www.facebook.com/profile.php?id=61555520116242" target="_blank" class="contact-link">Facebook</a><div class="contact-divider"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2025 Prince Pamintuan Photography. All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="https://www.instagram.com/cs.pngp/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/profile.php?id=61555520116242" target="_blank">Facebook</a>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  (function anim(){ cursor.style.left=mx+'px'; cursor.style.top=my+'px'; rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+  document.querySelectorAll('a,button,.faq-q').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)';   ring.style.transform='translate(-50%,-50%) scale(1)'; });
+  });
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', closeMobile);
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+  const io = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*70); io.unobserve(e.target); } }); }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+<script>
+  function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+  async function handleBooking(e) {
+    e.preventDefault();
+
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fname: document.getElementById("fname").value,
+        lname: document.getElementById("lname").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        service: document.getElementById("service").value,
+        date: document.getElementById("date").value,
+        message: document.getElementById("message").value,
+      })
+    });
+
+    if (res.ok) {
+      document.getElementById('bookingForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      alert("Something went wrong. Please try again.");
+    }
+  }
+</script>
+</body>
+</html>
