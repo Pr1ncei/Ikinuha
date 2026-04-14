@@ -249,6 +249,19 @@
       .proj-photo-grid.mixed { grid-template-columns:1fr; }
       .proj-meta-inner { gap:1.5rem; }
     }
+    @media (hover: none) {
+      #cursor, #cursor-ring {
+        display: none !important;
+      }
+
+      body {
+        cursor: auto;
+      }
+
+      a, button, .faq-q {
+        cursor: pointer;
+      }
+    }
   </style>
 </head>
 <body>
@@ -297,7 +310,7 @@
 <!-- PROJECT HERO -->
 <!-- REPLACE src with your hero/cover photo -->
 <div class="proj-hero">
-  <img src="images/KAT.png" alt="Project Hero" />
+  <img src="images/KATT.webp" alt="Project Hero" />
   <div class="proj-hero-overlay"></div>
   <div class="proj-hero-content">
     <div class="proj-hero-breadcrumb">
@@ -353,38 +366,38 @@
         <h3 class="proj-section-head reveal">The Session</h3>
         <div class="proj-photo-grid cols-1 reveal">
           <!-- REPLACE src. Landscape/wide photos look great here. -->
-          <img src="images/KATT.png" alt="Photo 1" onclick="openLightbox(this)" />
+          <img src="images/KATT.webp" alt="Photo 1" onclick="openLightbox(this)" />
         </div>
 
         <!-- PHOTO SECTION 2 — Two column grid -->
         <div class="proj-photo-grid cols-2 reveal" style="margin-top:1rem">
           <!-- REPLACE src values. Portrait orientation works well in 2-col. -->
-          <img src="images/KAT1.jpg" alt="Photo 2" onclick="openLightbox(this)" />
-          <img src="images/KAT2.jpg" alt="Photo 3" onclick="openLightbox(this)" />
+          <img src="images/KAT1.webp" alt="Photo 2" onclick="openLightbox(this)" />
+          <img src="images/KAT2.webp" alt="Photo 3" onclick="openLightbox(this)" />
         </div>
 
         <!-- PHOTO SECTION 3 — Three column grid -->
         <div class="proj-photo-grid cols-3 reveal">
           <!-- REPLACE src values. Square or portrait crops work well here. -->
-          <img src="images/KAT3.jpg" alt="Photo 4" onclick="openLightbox(this)" />
-          <img src="images/KAT4.jpg" alt="Photo 5" onclick="openLightbox(this)" />
-          <img src="images/KAT5.jpg" alt="Photo 6" onclick="openLightbox(this)" />
+          <img src="images/KAT3.webp" alt="Photo 4" onclick="openLightbox(this)" />
+          <img src="images/KAT4.webp" alt="Photo 5" onclick="openLightbox(this)" />
+          <img src="images/KAT5.webp" alt="Photo 6" onclick="openLightbox(this)" />
         </div>
 
         <!-- PHOTO SECTION 4 — Mixed: 1 big + 2 small stacked -->
         <div class="proj-photo-grid mixed reveal" style="margin-top:1rem">
           <div class="big">
-            <img src="images/KAT7.jpg" alt="Photo 7" onclick="openLightbox(this)" />
+            <img src="images/KAT7.webp" alt="Photo 7" onclick="openLightbox(this)" />
           </div>
           <div class="small-stack">
-            <img src="images/KAT6.jpg" alt="Photo 8" onclick="openLightbox(this)" />
-            <img src="images/KAT8.jpg" alt="Photo 9" onclick="openLightbox(this)" />
+            <img src="images/KAT6.webp" alt="Photo 8" onclick="openLightbox(this)" />
+            <img src="images/KAT8.webp" alt="Photo 9" onclick="openLightbox(this)" />
           </div>
         </div>
 
         <!-- PHOTO SECTION 5 — Two column -->
         <div class="proj-photo-grid cols-2 reveal" style="margin-top:1rem">
-          <img src="images/KAT9.jpg" alt="Photo 10" onclick="openLightbox(this)" />
+          <img src="images/KAT9.webp" alt="Photo 10" onclick="openLightbox(this)" />
         </div>
 
         <!-- ADD MORE SECTIONS as needed by copying any grid block above -->
@@ -398,7 +411,7 @@
             <a href="project-ignite.html" class="btn" style="margin-top:1rem;display:inline-flex"><span>View Project →</span></a>
           </div>
           <!-- REPLACE src with the next project's thumbnail -->
-          <div class="next-thumb"><img src="images/IGNITE2.JPG" alt="Next Project" /></div>
+          <div class="next-thumb"><img src="images/IGNITE2.webp" alt="Next Project" /></div>
         </div>
       </div>
 
@@ -442,13 +455,25 @@
 <script>
   const cursor = document.getElementById('cursor');
   const ring   = document.getElementById('cursor-ring');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
-  (function anim(){ cursor.style.left=mx+'px'; cursor.style.top=my+'px'; rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
-  document.querySelectorAll('a,button,.faq-q').forEach(el => {
+
+  if (window.matchMedia("(hover: hover)").matches){
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+    (function anim(){ 
+      cursor.style.left=mx+'px'; 
+      cursor.style.top=my+'px'; 
+      rx+=(mx-rx)*.12; ry+=(my-ry)*.12; 
+      ring.style.left=rx+'px'; 
+      ring.style.top=ry+'px'; 
+      requestAnimationFrame(anim); 
+    })();
+
+    document.querySelectorAll('a,button,.faq-q').forEach(el => {
     el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; });
     el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)';   ring.style.transform='translate(-50%,-50%) scale(1)'; });
-  });
+    });
+  }
+  
   const nav = document.getElementById('mainNav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
   document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
